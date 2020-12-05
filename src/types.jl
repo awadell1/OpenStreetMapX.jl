@@ -258,21 +258,21 @@ This is the main data structure used fot map data analytics.
 * `roadways` :  unique roads stored as a OpenStreetMapX.Way objects
 * `intersections` : roads intersections
 * `g` : `LightGraphs` directed graph representing a road network
-* `v` : vertices in the road network 
-* `n` : OpenStreetMap node ids for the graphs vertices 
+* `v` : vertices in the road network
+* `n` : OpenStreetMap node ids for the graphs vertices
 * `e` : edges in the graph represented as a tuple (source,destination)
 * `w` : edge weights, indexed by graph id
 * `class` : road class of each edge
 """
-struct MapData
+struct MapData{T <: Union{ENU,LLA,ECEF}}
     bounds::Bounds{LLA}
-    nodes::Dict{Int,ENU}
+    nodes::Dict{Int,T}
     roadways::Array{Way,1}
     intersections::Dict{Int,Set{Int}}
     # Transporation network graph data and helpers to increase routing speed
     g::LightGraphs.SimpleGraphs.SimpleDiGraph{Int64} # Graph object
     v::Dict{Int,Int}                             # (node id) => (graph vertex)
-	n::Vector{Int}                             # (graph vertex) => (node id)
+    n::Vector{Int}                             # (graph vertex) => (node id)
     e::Vector{Tuple{Int,Int}}                # Edges in graph, stored as a tuple (source,destination)
     w::SparseArrays.SparseMatrixCSC{Float64, Int}   # Edge weights, indexed by graph id
     class::Vector{Int}                           # Road class of each edge

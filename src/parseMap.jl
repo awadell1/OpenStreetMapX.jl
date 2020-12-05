@@ -84,7 +84,7 @@ High level function - parses .osm file and create the road network based on the 
 * `trim_to_connected_graph`: trim orphan nodes in such way that the map is a strongly connected graph
 """
 function get_map_data(filepath::String,filename::Union{String,Nothing}=nothing; road_levels::Set{Int} = Set(1:length(OpenStreetMapX.ROAD_CLASSES)),
-		use_cache::Bool = true,only_intersections::Bool = true, trim_to_connected_graph::Bool=false)::MapData
+		use_cache::Bool = true, only_intersections::Bool = true, trim_to_connected_graph::Bool=false)::MapData
     #preprocessing map file
     datapath = (filename==nothing) ? dirname(filepath) : filepath;
 	if filename == nothing
@@ -126,7 +126,7 @@ function MapData(mapdata::OSMData, road_levels::Set{Int}, only_intersections::Bo
 	 trim_to_connected_graph::Bool=false, remove_nodes::AbstractSet{Int}=Set{Int}())
 	#preparing data
 	bounds = mapdata.bounds
-	nodes = OpenStreetMapX.ENU(mapdata.nodes,OpenStreetMapX.center(bounds))
+	nodes = mapdata.nodes
 	highways = OpenStreetMapX.filter_highways(OpenStreetMapX.extract_highways(mapdata.ways))
 	roadways = OpenStreetMapX.filter_roadways(highways, levels= road_levels)
 	if length(remove_nodes) > 0
